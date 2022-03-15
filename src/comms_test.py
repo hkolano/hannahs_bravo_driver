@@ -20,7 +20,7 @@ if __name__ == '__main__':
     pr = PacketReader()
 
     # Device_id 0XFF is broadcast that is received by all devices.
-    request_packet = BPLProtocol.encode_packet(0xFF, PacketID.REQUEST, bytes([PacketID.TEMPERATURE]))
+    request_packet = BPLProtocol.encode_packet(0x01, PacketID.REQUEST, bytes([PacketID.POSITION]))
 
     positions = ["-"] * len(DEVICE_IDS)
 
@@ -34,7 +34,9 @@ if __name__ == '__main__':
             recv_bytes = b''
         if recv_bytes:
             packets = pr.receive_bytes(recv_bytes)
+            print("elapsed time: {}".format(time.time()-sent_time))
             for device_id, packet_id, data in packets:
+                print("device: {}".format(device_id))
                 if packet_id == PacketID.POSITION:
 
                     if device_id in DEVICE_IDS:
@@ -52,6 +54,5 @@ if __name__ == '__main__':
         if time.time() >= next_req_time:
             next_req_time += (1/REQUEST_FREQUENCY)
             sock.sendto(request_packet, manipulator_address)
+            sent_time = time.time()
 
-
-print("imported!")
