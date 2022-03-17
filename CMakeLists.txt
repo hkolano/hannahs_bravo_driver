@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(hannahs_bravo_driver)
+project(rsa_bravo_driver)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -11,10 +11,15 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  hardware_interface
+  controller_manager
+  libbpl_protocol
+  urdf
+  rosparam_shortcuts
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system thread)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -116,14 +121,14 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/hannahs_bravo_driver.cpp
-# )
+add_library(bravo_hw_interface
+  src/bravo_hw_interface.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -133,7 +138,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/hannahs_bravo_driver_node.cpp)
+add_executable(${PROJECT_NAME} src/bravo_base.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -143,12 +148,16 @@ include_directories(
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(bravo_hw_interface
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(${PROJECT_NAME}
+  bravo_hw_interface
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

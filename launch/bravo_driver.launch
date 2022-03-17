@@ -1,0 +1,23 @@
+<launch>
+
+    <arg name="initial_joint_positions"
+        doc="Initial joint configuration of the panda. Specify as a list of name/value pairs in form of '-J [name-of-joint] [value-in-rad]'. Default is a 90 degree bend in the elbow"
+        default="-J bravo_axis_b 0.152
+                    -J bravo_axis_c 1.3161
+                    -J bravo_axis_d 3.15
+                    -J bravo_axis_e 0.671
+                    -J bravo_axis_f 2.0903
+                    -J bravo_axis_g 0" />
+
+    <!-- Load the Gazebo-enriched URDF onto the parameter server -->
+    <param name="robot_description" 
+        command="xacro $(find bpl_bravo_description)/urdf/bravo_7_example.urdf.xacro"/>
+
+        <!-- Load base config to the parameter server -->
+    <rosparam command="load" 
+              file="$(find rsa_bravo_driver)/config/bravo.yaml"/>
+
+    <!-- <node pkg="rviz" type="rviz" name="foo"/> -->
+
+    <node name="rsa_bravo_driver" pkg="rsa_bravo_driver" type="rsa_bravo_driver" output="screen" />
+  </launch>

@@ -1,0 +1,7 @@
+# Hardware related parameters
+# will be loaded onto the parameter server
+# See the bravo.launch
+bravo:
+  debug:
+    hardware_interface: false
+    base_controller: true
