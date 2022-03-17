@@ -47,6 +47,20 @@ namespace bravo_base
  
     bool BravoHWInterface::init(ros::NodeHandle &root_nh, ros::NodeHandle &robot_hw_nh)
     {
+        ROS_INFO("Initializing Bravo Comms Client ...");
+
+        const std::string ipAddress("192.168.2.3"); // Default IP address for Bravo
+        const unsigned int port = 6789;             // Default port for Bravo
+
+        client_ =  libbpl_protocol::SyncClient (ipAddress, port);
+
+        const uint8_t deviceId = 0x01;
+        float serial_number = client.queryFloat(PacketTypes::SERIAL_NUMBER, deviceId);
+        float velocity = client.velocity(deviceId);
+        float position = client.position(deviceId);
+        float current = client.current(deviceId);
+
+
         ROS_INFO("Initializing Bravo Hardware Interface ...");
         num_joints_ = joint_names_.size();
         ROS_INFO("Number of joints: %d", (int)num_joints_);

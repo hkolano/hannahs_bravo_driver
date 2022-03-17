@@ -12,6 +12,9 @@
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/joint_command_interface.h>
 
+#include <libbpl_protocol/sync_client.h>
+using libbpl_protocol::PacketTypes;
+
 namespace bravo_base
 {
     const unsigned int NUM_JOINTS = 2;
@@ -167,6 +170,8 @@ namespace bravo_base
 
         // Array to store the received encoder tick values from the \ref sub_encoder_ticks_ subscriber
         JointState measured_joint_states_[NUM_JOINTS];
+
+        libbpl_protocol::SyncClient client_;
 
     };  // class BravoHWInterface
 
