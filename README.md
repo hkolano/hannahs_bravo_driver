@@ -1,3 +1,6 @@
+# Migrated to https://gitlab.com/rsa-manipulation-testbed/rsa_bravo_driver
+ This repo is no longer maintained, and has been migrated to https://gitlab.com/rsa-manipulation-testbed/rsa_bravo_driver.
+ 
 # rsa_bravo_driver
 
 ## Connecting
