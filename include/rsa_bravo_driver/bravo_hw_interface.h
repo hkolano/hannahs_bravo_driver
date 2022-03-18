@@ -171,7 +171,7 @@ namespace bravo_base
         // Array to store the received encoder tick values from the \ref sub_encoder_ticks_ subscriber
         JointState measured_joint_states_[NUM_JOINTS];
 
-        libbpl_protocol::SyncClient client_;
+        libbpl_protocol::SyncClient client_; // TODO initialize this using config parameters
 
     };  // class BravoHWInterface
 

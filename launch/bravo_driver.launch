@@ -13,11 +13,23 @@
     <param name="robot_description" 
         command="xacro $(find bpl_bravo_description)/urdf/bravo_7_example.urdf.xacro"/>
 
-        <!-- Load base config to the parameter server -->
+    <!-- Load base config to the parameter server -->
     <rosparam command="load" 
               file="$(find rsa_bravo_driver)/config/bravo.yaml"/>
 
     <!-- <node pkg="rviz" type="rviz" name="foo"/> -->
 
-    <node name="rsa_bravo_driver" pkg="rsa_bravo_driver" type="rsa_bravo_driver" output="screen" />
+    <node name="rsa_bravo_driver" pkg="rsa_bravo_driver" type="rsa_bravo_driver" ns="bravo" output="screen" />
+
+        <!-- Load controller config to the parameter server -->
+    <rosparam command="load" 
+        file="$(find rsa_bravo_driver)/config/bravo_control.yaml"/>
+
+        <!-- This will use the controller manager that got started inside the difbot_base node -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" 
+        ns="bravo"
+        args="joint_state_controller" 
+        launch-prefix="xterm -hold -e "
+        />
   </launch>
